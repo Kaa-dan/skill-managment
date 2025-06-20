@@ -1,13 +1,18 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/Kaa-dan/skill-management/handlers"
+	"github.com/Kaa-dan/skill-management/managers"
+	"github.com/gin-gonic/gin"
+)
 
 func main() {
 	router := gin.Default()
 
-	router.GET("/", func(ctx *gin.Context) {
-		ctx.JSON(200, gin.H{"message": "welcome"})
-	})
+	userManager := managers.NewUserManager()
+	userHandler := handlers.NewUserHandleFrom(userManager)
+
+	userHandler.RegisterUserApis(router)
 
 	router.Run() // listen and server on 0.0.0.0:8080
 }
