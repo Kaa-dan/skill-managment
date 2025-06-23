@@ -3,7 +3,9 @@ package handlers
 import (
 	"net/http"
 
+	"github.com/Kaa-dan/skill-management/database"
 	"github.com/Kaa-dan/skill-management/managers"
+	"github.com/Kaa-dan/skill-management/models"
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,5 +25,8 @@ func (userHandler *UserHandler) RegisterUserApis(r *gin.Engine) {
 }
 
 func (userHandler *UserHandler) Create(ctx *gin.Context) {
+	//creating user
+	database.DB.Create(&models.UserModel{FullName: "nithin raj", Email: "nithraj.dev"})
+
 	ctx.JSON(http.StatusOK, gin.H{"msg": "success"})
 }
