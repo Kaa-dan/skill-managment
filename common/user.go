@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// create user
 type UserCreationInput struct {
 	Fullname string `json:"full_name"`
 	Email    string `json:"email"`
@@ -15,6 +16,17 @@ func NewUserCreationInput() *UserCreationInput {
 	return &UserCreationInput{}
 }
 
+// update user
+type UserUpdateInput struct {
+	Fullname string `json:"full_name"`
+	Email    string `json:"email"`
+}
+
+func NewUserUpdateInput() *UserCreationInput {
+	return &UserCreationInput{}
+}
+
+// response
 type requestResponse struct {
 	Message string `json:"message"`
 	Status  uint   `json:"status"`

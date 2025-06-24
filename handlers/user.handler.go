@@ -92,3 +92,29 @@ func (userHandler *UserHandler) Delete(ctx *gin.Context) {
 	}
 	common.SuccessResponse(ctx, "Deleted user")
 }
+
+func (userHandler *UserHandler) Update(ctx *gin.Context) {
+	userId, ok := ctx.Params.Get("user_id")
+	if !ok {
+		fmt.Println("invalid user id ")
+	}
+
+	user_data := common.NewUserUpdateInput()
+
+	err := ctx.BindJSON(&user_data)
+
+	//error
+	if err != nil {
+		common.BadResponse(ctx, "failed to bind data ")
+		return
+	}
+
+	//creating user
+	updatedUser, err := userHandler.userManager.Update(user_data, userId)
+
+	if err != nil {
+		common.BadResponse(ctx, "failed to update user")
+		return
+	}
+	ctx.JSON(http.StatusOK, updatedUser)
+}

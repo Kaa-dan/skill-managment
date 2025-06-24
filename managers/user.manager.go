@@ -47,3 +47,20 @@ func (userMgr *UserManager) Delete(id string) error {
 
 	return nil
 }
+
+func (userMgr *UserManager) Update(user_data *common.UserCreationInput, user_id string) (*models.UserModel, error) {
+
+	user := models.UserModel{}
+
+	database.DB.First(&user, user_id)
+
+	user.FullName = user_data.Fullname
+	user.Email = user_data.Email
+
+	database.DB.Save(&user)
+
+	if user.ID == 0 {
+		return nil, errors.New("user update failed")
+	}
+	return &user, nil
+}
