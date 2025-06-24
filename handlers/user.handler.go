@@ -43,3 +43,14 @@ func (userHandler *UserHandler) Create(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, newUser)
 }
+
+func (userHandler *UserHandler) List(ctx *gin.Context) {
+
+	//creating user
+	allUsers, err := userHandler.userManager.List()
+
+	if err != nil {
+		fmt.Println(err)
+	}
+	ctx.JSON(http.StatusOK, allUsers)
+}
