@@ -24,6 +24,7 @@ func (userHandler *UserHandler) RegisterUserApis(r *gin.Engine) {
 	userGroup.GET("", userHandler.List)
 	userGroup.GET(":user_id/", userHandler.Detail)
 	userGroup.DELETE(":user_id/", userHandler.Delete)
+	userGroup.PATCH(":user_id/", userHandler.Update)
 
 }
 
