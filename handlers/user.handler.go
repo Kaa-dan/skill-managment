@@ -4,9 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/Kaa-dan/skill-management/database"
+	"github.com/Kaa-dan/skill-management/common"
 	"github.com/Kaa-dan/skill-management/managers"
-	"github.com/Kaa-dan/skill-management/models"
 	"github.com/gin-gonic/gin"
 )
 
@@ -27,10 +26,7 @@ func (userHandler *UserHandler) RegisterUserApis(r *gin.Engine) {
 
 func (userHandler *UserHandler) Create(ctx *gin.Context) {
 
-	var user_data struct {
-		Full_name string `json:"full_name"`
-		Email     string `json:"email"`
-	}
+	user_data := common.NewUserCreationInput()
 
 	err := ctx.BindJSON(&user_data)
 
@@ -40,8 +36,10 @@ func (userHandler *UserHandler) Create(ctx *gin.Context) {
 	}
 
 	//creating user
+	newUser, err := userHandler.userManager.Create(user_data)
 
-	database.DB.Create(&models.UserModel{FullName: user_data.Full_name, Email: user_data.Email})
-
-	ctx.JSON(http.StatusOK, gin.H{"msg": "success"})
+	if err != nil {
+		fmt.Println(err)
+	}
+	ctx.JSON(http.StatusOK, newUser)
 }
