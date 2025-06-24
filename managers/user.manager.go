@@ -8,15 +8,22 @@ import (
 	"github.com/Kaa-dan/skill-management/models"
 )
 
-type UserManager struct {
+type UserManager interface {
+	Create(user_data *common.UserCreationInput) (*models.UserModel, error)
+	List() ([]models.UserModel, error)
+	Detail(id string) (models.UserModel, error)
+	Delete(id string) error
+	Update(user_data *common.UserCreationInput, user_id string) (*models.UserModel, error)
+}
+type userManager struct {
 	// dbClient
 }
 
-func NewUserManager() *UserManager {
-	return &UserManager{}
+func NewUserManager() UserManager {
+	return &userManager{}
 }
 
-func (userMgr *UserManager) Create(user_data *common.UserCreationInput) (*models.UserModel, error) {
+func (userMgr *userManager) Create(user_data *common.UserCreationInput) (*models.UserModel, error) {
 	newUser := &models.UserModel{FullName: user_data.Fullname, Email: user_data.Email}
 	database.DB.Create(newUser)
 
@@ -26,21 +33,21 @@ func (userMgr *UserManager) Create(user_data *common.UserCreationInput) (*models
 	return newUser, nil
 }
 
-func (userMgr *UserManager) List() ([]models.UserModel, error) {
+func (userMgr *userManager) List() ([]models.UserModel, error) {
 	users := []models.UserModel{}
 
 	database.DB.Find(&users)
 
 	return users, nil
 }
-func (userMgr *UserManager) Detail(id string) (models.UserModel, error) {
+func (userMgr *userManager) Detail(id string) (models.UserModel, error) {
 	user := models.UserModel{}
 
 	database.DB.First(&user, id)
 
 	return user, nil
 }
-func (userMgr *UserManager) Delete(id string) error {
+func (userMgr *userManager) Delete(id string) error {
 	user := models.UserModel{}
 	database.DB.First(&user, id)
 	database.DB.Delete(&user)
@@ -48,7 +55,7 @@ func (userMgr *UserManager) Delete(id string) error {
 	return nil
 }
 
-func (userMgr *UserManager) Update(user_data *common.UserCreationInput, user_id string) (*models.UserModel, error) {
+func (userMgr *userManager) Update(user_data *common.UserCreationInput, user_id string) (*models.UserModel, error) {
 
 	user := models.UserModel{}
 

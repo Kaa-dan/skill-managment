@@ -11,10 +11,10 @@ import (
 
 type UserHandler struct {
 	groupName   string
-	userManager *managers.UserManager
+	userManager managers.UserManager
 }
 
-func NewUserHandleFrom(userManager *managers.UserManager) *UserHandler {
+func NewUserHandleFrom(userManager managers.UserManager) *UserHandler {
 	return &UserHandler{"api/users", userManager}
 }
 
