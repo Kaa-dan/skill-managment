@@ -33,3 +33,10 @@ func (userMgr *UserManager) List() ([]models.UserModel, error) {
 
 	return users, nil
 }
+func (userMgr *UserManager) Detail(id string) (models.UserModel, error) {
+	user := models.UserModel{}
+
+	database.DB.First(&user, id)
+
+	return user, nil
+}
