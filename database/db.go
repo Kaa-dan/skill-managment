@@ -9,8 +9,9 @@ import (
 var DB *gorm.DB
 
 func Initialize() {
+	var err error
 	//db call
-	DB, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+	DB, err = gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
 
 	//db err
 	if err != nil {
