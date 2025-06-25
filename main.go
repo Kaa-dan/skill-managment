@@ -22,7 +22,7 @@ func main() {
 
 	userManager := managers.NewUserManager()
 
-	userHandler := handlers.NewUserHandleFrom(userManager)
+	userHandler := handlers.NewUserHandler(userManager)
 
 	userHandler.RegisterUserApis(router)
 
